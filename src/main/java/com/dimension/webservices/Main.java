@@ -23,7 +23,9 @@ public class Main {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.dimension.webservices package
         final ResourceConfig rc = new ResourceConfig().packages("com.dimension.webservices");
+        rc.register(org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainerProvider.class);
         rc.register(com.dimension.webservices.GSResponseFilter.class);
+        rc.register(com.dimension.webservices.GSRequestFilter.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
