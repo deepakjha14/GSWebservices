@@ -25,6 +25,8 @@ public class Main {
         final ResourceConfig rc = new ResourceConfig().packages("com.dimension.webservices");
         rc.register(org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainerProvider.class);
         rc.register(com.dimension.webservices.GSResponseFilter.class);
+        //rc.getProperties().put("com.sun.jersey.spi.container.ContainerRequestFilters",
+          //             "com.dimension.webservices.GSResponseFilter.class");
         rc.register(com.dimension.webservices.GSRequestFilter.class);
 
         // create and start a new instance of grizzly http server
