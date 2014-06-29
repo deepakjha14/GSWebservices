@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.dimension.webservices;
+package com.dimension.webservices.headers;
 
 import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;

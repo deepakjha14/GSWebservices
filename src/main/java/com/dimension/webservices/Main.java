@@ -7,6 +7,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.io.IOException;
 import java.net.URI;
 
+// Headers related local packages.
+
+
 /**
  * Main class.
  *
@@ -24,10 +27,10 @@ public class Main {
         // in com.dimension.webservices package
         final ResourceConfig rc = new ResourceConfig().packages("com.dimension.webservices");
         rc.register(org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainerProvider.class);
-        rc.register(com.dimension.webservices.GSResponseFilter.class);
+        rc.register(com.dimension.webservices.headers.GSResponseFilter.class);
         //rc.getProperties().put("com.sun.jersey.spi.container.ContainerRequestFilters",
           //             "com.dimension.webservices.GSResponseFilter.class");
-        rc.register(com.dimension.webservices.GSRequestFilter.class);
+        rc.register(com.dimension.webservices.headers.GSRequestFilter.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI

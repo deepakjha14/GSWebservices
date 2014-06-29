@@ -1,15 +1,16 @@
 package com.dimension.webservices;
 
+import com.dimension.webservice.security.GSTokenGeneration;
+import com.dimension.webservices.dbQuery.GStoreDBConnect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.server.JSONP;
 
 /**
@@ -28,7 +29,7 @@ public class MyResource {
 
     static {
         changes.add(new loginBean("Deepak", "Jha", 2));
-        changes.add(new loginBean("Deepak", "Jha", 2));
+        changes.add(new loginBean("Deepak", "Oye Hoye !", 2));
         changes.add(new loginBean("Deepak", "Jha", 2));
         changes.add(new loginBean("Deepak", "Jha", 2));
         changes.add(new loginBean("Deepak", "Jha", 2));
@@ -44,19 +45,20 @@ public class MyResource {
     @POST    
     @Path("count")
     //@JSONP(queryParam = "callback")
-    @Produces({"application/x-javascript"})
+    @Produces({"application/x-javascript", "application/json"})
     //@Consumes(MediaType.APPLICATION_JSON)
-    public String getPost(@FormParam("username") String usrName, @FormParam("password") String pwd) {
+    public String getPost(@FormParam("username") String usrName, @FormParam("password") String pwd, @FormParam("deviceName") String deviceName, @FormParam("tmStamp") String timeStamp) throws SQLException {
         // This one is to establisht the connection with the database.
         //We have hardcoded this DB details but later we need to develop the-
-        //mechanism to read it from the xml property file.
-        
+        //mechanism to read it from the xml property file.                
         GStoreDBConnect dbConnect = new GStoreDBConnect("com.mysql.jdbc.Driver",3306,"grocerystore_db", "root", "Creator@123");
-        Boolean pwdMatch = dbConnect.checkCredentials(usrName, pwd);
-        if (pwdMatch.equals(true)){
-            return "Success Ho Gaya";
+        String dataRS = dbConnect.checkCredentials(usrName, pwd, timeStamp, deviceName);
+        if (!dataRS.equals(null)){
+            // This is to generate the token for authentication. arg1 User Name, arg2 dob, arg3 timeStamp, arg4 deviceName
+            //GSTokenGeneration token = new GSTokenGeneration(usrName,dataRS.getString("DOB"),timeStamp,deviceName);
+            return "Login Successful";
         }else{
-            return "Failed Ho Gaya";
+            return "User Name or Password Incorrect !";
         }
     }
 }

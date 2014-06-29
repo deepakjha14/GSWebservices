@@ -4,13 +4,15 @@
  * and open the template in the editor.
  */
 
-package com.dimension.webservices;
+package com.dimension.webservices.dbQuery;
 
+import com.dimension.webservice.security.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.CallableStatement;
 /**
  *
  * @author Deepak Jha @Dimension Labs !!!
@@ -18,9 +20,10 @@ import java.sql.Statement;
 public class GStoreDBConnect {
     public String userName;
     public String detail;
+    public CallableStatement cs;
     ResultSet rs;
     Statement st;
-    Connection conn;
+    public static Connection conn;
     /* main method was to test the connection if that works or not!
         public static void main(String arg[]){
         GStoreDBConnect gc = new GStoreDBConnect();
@@ -43,26 +46,36 @@ public class GStoreDBConnect {
         }        
     }
     // This is to check the user name and password comes from the front end application.
-    public Boolean checkCredentials(String usrName, String loginPassword){
+    public String checkCredentials(String usrName, String loginPassword, String timeStamp,String deviceName){
         String DBpassword=null;
+        String token = null;
+        String emailID = null;
+        rs=null;
         try{         
             st = conn.createStatement();
-            rs = st.executeQuery("select * from user where UserName=\'"+usrName+"\'");
-                while (rs.next()){                    
+            rs = st.executeQuery("select * from user where UserName=\'"+usrName+"\'");                                 
+            // when there is something in the result set we will loop to find the answer.
+            if(rs.next()){
                     DBpassword = rs.getString("Password");
-                    String lastName = rs.getString("EmailID");                                               
-                    // print the results
-                    System.out.format("%s Login Password, %s Last Name\n", loginPassword, lastName);
+                    emailID = rs.getString("EmailID");                                                           
+                // print the results
+                if(DBpassword.equals(loginPassword) ){
+                    System.out.println("Password Match !!!"); 
+                    GSTokenGeneration dbToken = new GSTokenGeneration();
+                    token= dbToken.generateToken(usrName,rs.getString("DOB"),timeStamp,deviceName);
+                } else {                
+                    System.out.format("%s Login Password, %s Email ID\n", loginPassword, emailID);
+                    rs=null;
                 }
+            }
             st.close();
         }catch(SQLException connException){
-            System.out.println("Exception arrived: " +connException);
+            System.out.println("Exception arrived: " +connException.getMessage());
         }        
-        if (DBpassword.equals(loginPassword) && DBpassword !=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
+        return token;
+    } // This should be removed after completion !
+    /*public String generateToken(String usrName, rs, String timeStamp, String deviceName){
+    GSTokenGeneration dbToken = new GSTokenGeneration(usrName,rs.getString("DOB"),timeStamp,deviceName);
+     return dbToken.toString();   
+    }*/
 }
