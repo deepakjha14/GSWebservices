@@ -6,7 +6,7 @@
 
 package com.dimension.webservices.dbQuery;
 
-import com.dimension.webservice.security.*;
+import com.dimension.webservices.security.GSTokenGeneration;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

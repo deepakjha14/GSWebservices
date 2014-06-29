@@ -1,6 +1,6 @@
 package com.dimension.webservices;
 
-import com.dimension.webservice.security.GSTokenGeneration;
+import com.dimension.webservices.security.GSTokenGeneration;
 import com.dimension.webservices.dbQuery.GStoreDBConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.dimension.webservice.security;
+package com.dimension.webservices.security;
 
 import com.dimension.webservices.dbQuery.GStoreDBConnect;
 import java.sql.CallableStatement;
