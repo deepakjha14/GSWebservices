@@ -6,6 +6,7 @@
 
 package com.dimension.webservices.headers;
 
+import com.dimension.webservices.dbQuery.GStoreDBConnect;
 import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -25,6 +26,8 @@ public class GSResponseFilter implements ContainerResponseFilter{
         //headers.add("Access-Control-Allow-Origin", "http://podcastpedia.org"); //allows CORS requests only coming from podcastpedia.org        
         headers.add("Access-Control-Allow-Methods", "GET, POST");            
         headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
+        // Taking the value of the token from the class.
+        headers.add("token", GStoreDBConnect.token);
     }
     
 }

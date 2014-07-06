@@ -19,7 +19,8 @@ import java.sql.CallableStatement;
  */
 public class GStoreDBConnect {
     public String userName;
-    public String detail;
+    public String detail;    
+    public static String token;
     public CallableStatement cs;
     ResultSet rs;
     Statement st;
@@ -29,6 +30,10 @@ public class GStoreDBConnect {
         GStoreDBConnect gc = new GStoreDBConnect();
         gc.makeConnect("com.mysql.jdbc.Driver",3306,"grocerystore_db", "root", "Creator@123");
     }*/
+    public GStoreDBConnect(){
+        // This constructor has been added because of the token requirement of the project !
+        // token="empty";        
+    }
     public GStoreDBConnect(String driverName, int port, String dbName, String dbUsrName, String dbPwd){
         //Loding the driver.        
         // After the load of driver we are connecting with the database.
@@ -47,8 +52,7 @@ public class GStoreDBConnect {
     }
     // This is to check the user name and password comes from the front end application.
     public String checkCredentials(String usrName, String loginPassword, String timeStamp,String deviceName){
-        String DBpassword=null;
-        String token = null;
+        String DBpassword=null;        
         String emailID = null;
         rs=null;
         try{         
@@ -65,6 +69,7 @@ public class GStoreDBConnect {
                     token= dbToken.generateToken(usrName,rs.getString("DOB"),timeStamp,deviceName);
                 } else {                
                     System.out.format("%s Login Password, %s Email ID\n", loginPassword, emailID);
+                    token="empty";
                     rs=null;
                 }
             }

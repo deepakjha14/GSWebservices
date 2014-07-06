@@ -26,11 +26,11 @@ public class GSTokenGeneration {
         cStmt.setString(1, usrName);
         cStmt.setString(2, dob);
         cStmt.setString(3, deviceName);                
-        //cStmt.setString(4, deviceName);
-        cStmt.registerOutParameter(4, Types.VARCHAR);
-        cStmt.registerOutParameter("tokenReturned", Types.VARCHAR);
+        //cStmt.setString(4, deviceName);        
+        cStmt.registerOutParameter(4, Types.VARCHAR);        
+        cStmt.registerOutParameter("token", Types.VARCHAR);
         cStmt.execute();
-        token = cStmt.getString("tokenReturned");
+        token = cStmt.getString("token");
         return token;
     }    
 }

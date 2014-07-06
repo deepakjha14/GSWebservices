@@ -53,7 +53,7 @@ public class MyResource {
         //mechanism to read it from the xml property file.                
         GStoreDBConnect dbConnect = new GStoreDBConnect("com.mysql.jdbc.Driver",3306,"grocerystore_db", "root", "Creator@123");
         String dataRS = dbConnect.checkCredentials(usrName, pwd, timeStamp, deviceName);
-        if (!dataRS.equals(null)){
+        if (!dataRS.equals("empty")){
             // This is to generate the token for authentication. arg1 User Name, arg2 dob, arg3 timeStamp, arg4 deviceName
             //GSTokenGeneration token = new GSTokenGeneration(usrName,dataRS.getString("DOB"),timeStamp,deviceName);
             return "Login Successful";
